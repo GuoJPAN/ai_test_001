@@ -1,0 +1,126 @@
+【python学习-类的用途】
+定义模板：造无数个具体对象，避免重复代码；
+继承复用：基于已有模板改新模板，站在肩膀上开发，不用从零开始；
+规范约束：定好规则，强制遵守，避免代码混乱（团队开发必备）；
+封装细节：藏起复杂逻辑，只暴露简单接口，简化使用、降低出错；
+打包数据：把相关的属性（数据）和方法（功能）打包在一起，方便传递和管理（最基础的作用）。
+
+
+【AI学习-模型下载方法】
+方法一：图形化界面 (GUI) 操作
+这种方式最直观，适合不习惯使用命令行的用户。
+操作步骤：
+启动应用：安装并打开Ollama的桌面应用程序（Windows/macOS版本安装后通常会自动启动，并在系统托盘中运行）。
+搜索与选择：在Ollama的图形界面中，找到模型选择或搜索框，直接输入模型名称（如 llama3.2）进行搜索。
+自动下载：从搜索结果中选择你需要的模型，Ollama便会开始自动下载。
+特点：一键操作，无需记忆命令，所有可用模型通常以列表形式清晰展示，对新手非常友好。
+
+方法二：命令行界面 (CLI) 操作
+这是最核心、最灵活的方法，适用于Windows的PowerShell、macOS的“终端”或Linux的Shell。
+核心命令：使用 ollama run <模型名称>。这个命令的强大之处在于，如果指定的模型尚未下载，它会自动触发下载流程，下载完成后立即启动该模型的对话环境。
+专用下载命令：如果你只想下载模型而不立即运行，可以使用 ollama pull <模型名称> 命令。
+使用示例：
+打开PowerShell或终端。
+输入命令，例如：ollama run deepseek-r1:7b。
+按回车，等待下载完成，成功后即可直接在终端里与模型对话。
+
+
+【python学习-miniconda】
+一、环境变量配置（D盘安装版）
+Path 需添加以下5条：
+D:\ProgramData\miniconda3
+D:\ProgramData\miniconda3\Scripts
+D:\ProgramData\miniconda3\Library\bin
+D:\ProgramData\miniconda3\condabin
+D:\ProgramData\miniconda3\pkgs
+
+二、初始化
+conda init powershell
+conda init cmd.exe
+
+三、常用命令速查
+查看版本	conda --version
+查看所有环境	conda env list
+创建环境	conda create -n 环境名 python=3.x
+激活环境	conda activate 环境名
+退出环境	conda deactivate
+删除环境	conda remove -n 环境名 --all
+更新conda	conda update conda
+
+四、配置加速镜像源
+# 添加清华源
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+conda config --set show_channel_urls yes
+# 查看当前源配置
+conda config --show channels
+
+五、VSCode 联动
+安装 Python 插件（微软官方）
+Ctrl+Shift+P → Python: Select Interpreter
+选择 Enter interpreter path
+路径格式：D:\ProgramData\miniconda3\envs\环境名\python.exe
+
+六、验证成功标志
+命令行：conda --version 显示版本号
+VSCode终端：行首显示 (环境名)
+
+七、设置vscode默认打开终端是指定的环境
+# 设置 auto_activate_base 为 false（关闭 base 自动激活）
+conda config --set auto_activate_base false
+
+# 设置每次打开终端默认激活 ai_env
+conda config --set env_prompt '({name})'
+
+然后在 VSCode 的 settings.json 中添加（Ctrl+Shift+P → Preferences: Open User Settings (JSON)）：
+{
+    "terminal.integrated.profiles.windows": {
+        "PowerShell": {
+            "source": "PowerShell",
+            "args": [
+                "-NoExit",
+                "-Command",
+                "conda activate ai_env"
+            ]
+        }
+    },
+    "terminal.integrated.defaultProfile.windows": "PowerShell"
+}
+
+【AI学习-RAG幻觉减少】
+1.只让模型看有用信息
+用更好的检索（比如关键词+向量混合搜索）和重排序，把最相关的文档放在前面。
+
+2.明确告诉模型“不知道就说不知道”
+在提示词里强制要求：只基于提供的文档回答，没找到信息就回复“无法确定”。
+
+3.要求模型引用来源
+让模型回答时带上出处（比如“根据文档A…”），这样容易检查是否瞎编。
+
+4.设置底线规则
+如果检索结果相似度太低，直接拒绝回答，不强行生成。
+
+5.简单兜底
+对数字、时间、人名等容易出错的内容，可以用代码或规则直接校验（比如日期提取后判断是否在文档中出现）。
+
+【AI学习-RAG投毒前提条件】
+以下是RAG投毒攻击的 5 个核心条件：
+能写入：攻击者可上传/修改知识库内容。
+能召回：恶意文档与用户问题语义相似，能被检索到。
+依赖上下文：LLM 生成时强制使用检索到的片段。
+指令覆盖：恶意指令能绕过或压制系统提示词。
+无输出校验：系统不检查/过滤 LLM 的最终回答。
+
+
+【git学习-上传代码】
+登录
+git config --global user.name "你的GitHub用户名"
+git config --global user.email "你的GitHub注册邮箱"
+
+代码提交
+git init
+git add .
+git commit -m "Initial commit"
+git remote add origin https://github.com/GuoJPAN/ai_test_001.git=
+git branch -M master
+git push -u origin master
