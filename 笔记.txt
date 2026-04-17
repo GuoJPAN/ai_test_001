@@ -124,3 +124,11 @@ git commit -m "Initial commit"
 git remote add origin https://github.com/GuoJPAN/ai_test_001.git=
 git branch -M master
 git push -u origin master
+
+【python学习-虚拟环境】
+# 创建 Python 虚拟环境
+python -m venv venv
+# 激活虚拟环境
+.\venv\Scripts\activate
+
+pip install -r requirements.txt
