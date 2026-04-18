@@ -113,14 +113,27 @@ conda config --set env_prompt '({name})'
 
 
 【git学习-上传代码】
-登录
+#登录
 git config --global user.name "你的GitHub用户名"
 git config --global user.email "你的GitHub注册邮箱"
 
-代码提交
+#代码提交
 git init
 git add .
 git commit -m "Initial commit"
 git remote add origin https://github.com/GuoJPAN/ai_test_001.git=
 git branch -M master
 git push -u origin master
+
+#增量代码
+git add .
+git commit -m "Initial commit"
+git push
+
+【python学习-虚拟环境】
+# 创建 Python 虚拟环境
+python -m venv venv
+# 激活虚拟环境
+.\venv\Scripts\activate
+
+pip install -r requirements.txt
